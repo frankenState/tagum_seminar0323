@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   {
-    path: '/',
+    path: '/parent',
     component: () => import('@/layouts/default/Default.vue'),
     children: [
       {
@@ -14,6 +14,16 @@ const routes = [
         // which is lazy-loaded when the route is visited.
         component: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
       },
+      {
+        path: 'maps',
+        name: 'map',
+        component: () => import('@/views/Maps.vue')
+      },
+      {
+        path: 'dashboard',
+        name: 'dashboard',
+        component: () => import('@/views/Dashboard.vue')
+      }
     ],
   },
 ]

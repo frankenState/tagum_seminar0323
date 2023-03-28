@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex-row d-sm-flex flex-grow-1">
-    <div class="pa-3 bg-deep-purple">
+    <div class="pa-3 bg-deep-purple w-25" :style="`width: ${ width < 600 ? 125 : 300}px`">
       <h1>Title 1</h1>
       <small>March 28, 2023</small>
       <p class="text-justify ml-2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt vero eum illo
@@ -49,6 +49,7 @@
 export default {
   data() {
     return {
+      width: 0,
       posts: [
         {
           id: 0,
@@ -57,6 +58,10 @@ export default {
         }
       ]
     }
+  },
+  created() {
+    console.log(window.innerWidth);
+    this.width = window.innerWidth;
   }
 }
 </script>
