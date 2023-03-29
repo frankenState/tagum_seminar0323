@@ -3,9 +3,11 @@
     <button @click="newMarker">New Marker</button>
     <div class="w-100" style="height: 700px">
         <l-map @ready="onReady" 
-            @mouseover="mouseOver"
+            @mousemove="mouseOver"
+            @dblclick="clickEvent"
         :use-global-leaflet="false" ref="map" :zoom="40" :center="center">
-            <l-tile-layer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" layer-type="base" name="OpenStreetMap">
+            <l-tile-layer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" layer-type="base" name="OpenStreetMap">
             </l-tile-layer>
             <l-circle-marker :lat-lng="[7.447146, 125.803964]" :radius="10" />
 
@@ -15,7 +17,7 @@
                 </l-marker>
             </template>
 
-            <template v-for="marker in customMarkers">
+            <template v-for="(marker, i) in customMarkers" :key="i">
                 <l-marker :lat-lng="marker.location" :draggable="marker.draggable">
                 </l-marker>
             </template>
@@ -31,6 +33,7 @@
             </l-polygon>
         </l-map>
     </div>
+    <code>{{ `[${this.current[0]}, ${this.current[1]}]`}}</code>
     <div class="d-flex justify-center py-2">
         <v-btn @click="moveTo([7.440649, 125.826024])" class="mx-1">Tagum</v-btn>
         <v-btn @click="moveTo([7.283371, 125.672142])" class="mx-1">Panabo</v-btn>
@@ -44,7 +47,7 @@
  Panabo = 7.283371, 125.672142
  Davao = 7.056108, 125.577467
 */
-import { latLng } from "leaflet";
+import * as L from "leaflet";
 import { LMap, LTileLayer, LCircleMarker, LMarker, LControl, LPolygon, LPopup } from "@vue-leaflet/vue-leaflet";
 
 export default {
@@ -53,9 +56,10 @@ export default {
     },
     data() {
         return {
+            current: [0, 0],
             center: [7.447146, 125.803964],
             zoom: 40,
-            marker: latLng(7.447146, 125.803964),
+            marker: L.latLng(7.447146, 125.803964),
             map: null,
             users: [
                 {
@@ -82,11 +86,18 @@ export default {
     },
     methods: {
         onReady(event) {
-            console.log("Event=> ", event);
+            if (navigator.geolocation){
+                navigator.geolocation.getCurrentPosition((position) => {
+                    console.log("Position=> ", position);
+                    const { latitude, longitude } = position.coords;
+                    this.center = [latitude, longitude];
+                    console.log("Position=> ", [latitude, longitude]);
+                })
+            }
         },
         newMarker() {
             this.customMarkers.push({
-                location: [7.447146, 125.803964],
+                location: this.center,
                 draggable: true
             });
         },
@@ -98,8 +109,19 @@ export default {
                 draggable: true
             });
         },
-        mouseOver(event){
-            console.log("event=> ", event);
+        mouseOver(ev){
+            var latlng = this.map.leafletObject.mouseEventToLatLng(ev);
+            this.current = [latlng.lat, latlng.lng];
+            console.log("current=> ", this.current);
+        },
+        clickEvent( ev ){
+           // console.log("Leaflet=> ", this.map.leafletObject);
+            ev.preventDefault();
+            var latlng = this.map.leafletObject.mouseEventToLatLng(ev);
+            this.customMarkers.push({
+                location: [latlng.lat, latlng.lng],
+                draggable: true
+            });
         }
     }
 }
