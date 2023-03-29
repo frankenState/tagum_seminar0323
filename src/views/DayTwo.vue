@@ -5,7 +5,7 @@
             </l-tile-layer>
 
             <template v-for="user in users" :key="user.id">
-                <l-marker :lat-lng="user.latlng" draggable="false">
+                <l-marker :lat-lng="user.latlng">
                     <l-popup>{{ user.name }}</l-popup>
                 </l-marker>
             </template>
