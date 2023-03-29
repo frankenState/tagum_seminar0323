@@ -3,22 +3,34 @@
     <button @click="newMarker">New Marker</button>
     <div class="w-100" style="height: 700px">
         <l-map @ready="onReady" 
-            @mousemove="mouseOver"
-            @dblclick="clickEvent"
+            @click="mouseOver"
         :use-global-leaflet="false" ref="map" :zoom="40" :center="center">
             <l-tile-layer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" layer-type="base" name="OpenStreetMap">
             </l-tile-layer>
             <l-circle-marker :lat-lng="[7.447146, 125.803964]" :radius="10" />
 
+            <l-marker 
+                :lat-lng="movingMarker.location" 
+                draggable="true"
+                @dragend="setMovingMarker"
+            >
+                <l-popup>
+                    <code>{{ `[${movingMarker.location[0]}, ${movingMarker.location[1]}]`}}</code>
+                </l-popup>
+            </l-marker>
+
             <template v-for="user in users">
-                <l-marker :lat-lng="user.location" draggable="true">
+                <l-marker :lat-lng="user.location" draggable="true" 
+                >
                     <l-popup>{{ user.name }}</l-popup>
                 </l-marker>
             </template>
 
             <template v-for="(marker, i) in customMarkers" :key="i">
-                <l-marker :lat-lng="marker.location" :draggable="marker.draggable">
+                <l-marker :lat-lng="marker.location" :draggable="marker.draggable"
+                >
+                    <l-popup>{{ marker.location }}</l-popup>
                 </l-marker>
             </template>
             <l-control class="leaflet-control leaflet-demo-control" position="bottomleft">Hello, Map!</l-control>
@@ -48,14 +60,17 @@
  Davao = 7.056108, 125.577467
 */
 import * as L from "leaflet";
-import { LMap, LTileLayer, LCircleMarker, LMarker, LControl, LPolygon, LPopup } from "@vue-leaflet/vue-leaflet";
+import { LMap, LTileLayer, LCircleMarker, LMarker, LControl, LPolygon, LPopup, LTooltip } from "@vue-leaflet/vue-leaflet";
 
 export default {
     components: {
-        LMap, LTileLayer, LCircleMarker, LControl, LMarker, LPolygon, LPopup
+        LMap, LTileLayer, LCircleMarker, LControl, LMarker, LPolygon, LPopup, LTooltip
     },
     data() {
         return {
+            movingMarker: {
+                location: [7.447146, 125.803964],
+            },
             current: [0, 0],
             center: [7.447146, 125.803964],
             zoom: 40,
@@ -112,7 +127,7 @@ export default {
         mouseOver(ev){
             var latlng = this.map.leafletObject.mouseEventToLatLng(ev);
             this.current = [latlng.lat, latlng.lng];
-            console.log("current=> ", this.current);
+           // console.log("current=> ", this.current);
         },
         clickEvent( ev ){
            // console.log("Leaflet=> ", this.map.leafletObject);
@@ -122,6 +137,9 @@ export default {
                 location: [latlng.lat, latlng.lng],
                 draggable: true
             });
+        },
+        setMovingMarker(ev) {
+            this.movingMarker.location = this.current;
         }
     }
 }

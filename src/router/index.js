@@ -30,6 +30,11 @@ const routes = [
         component: () => import('@/views/MapDemoTwo.vue')
       },
       {
+        path: 'day-two',
+        name: 'daytwo',
+        component: () => import('@/views/DayTwo.vue')
+      },
+      {
         path: 'dashboard',
         name: 'dashboard',
         component: () => import('@/views/Dashboard.vue')
