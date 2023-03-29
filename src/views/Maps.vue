@@ -23,6 +23,9 @@ export default {
       zoom: 2,
     };
   },
+  mounted() {
+    console.log('maps=> ', this.$refs.map);
+  }
 };
 </script>
   
