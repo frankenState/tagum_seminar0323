@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-card>
+    <!-- <v-card>
       <v-list>
         <router-link to="/parent/">Home</router-link>
       </v-list>
@@ -10,7 +10,7 @@
       <v-list>
         <router-link to="/parent/dashboard">Dashboard</router-link>
       </v-list>
-    </v-card>
+    </v-card> -->
     <default-view />
   </v-app>
 </template>
