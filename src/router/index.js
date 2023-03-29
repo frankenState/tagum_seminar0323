@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   {
-    path: '/parent',
+    path: '/',
     component: () => import('@/layouts/default/Default.vue'),
     children: [
       {
@@ -18,6 +18,16 @@ const routes = [
         path: 'maps',
         name: 'map',
         component: () => import('@/views/Maps.vue')
+      },
+      {
+        path: 'map-demo',
+        name: 'mapdemo',
+        component: () => import('@/views/MapDemo.vue')
+      },
+      {
+        path: 'map-demo-two',
+        name: 'mapdemotwo',
+        component: () => import('@/views/MapDemoTwo.vue')
       },
       {
         path: 'dashboard',
