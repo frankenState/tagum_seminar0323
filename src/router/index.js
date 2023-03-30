@@ -38,6 +38,11 @@ const routes = [
         path: 'dashboard',
         name: 'dashboard',
         component: () => import('@/views/Dashboard.vue')
+      }, 
+      {
+        path: 'to-print',
+        name: 'toprint',
+        component: () => import('@/views/ForPrint.vue')
       }
     ],
   },

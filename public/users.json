@@ -1,0 +1,26 @@
+[
+    {
+        "id": 0,
+        "name": "Jane Doe",
+        "address":"Brgy. Somewhere, Tagum City",
+        "contact_no": "+639123456798"
+    },
+    {
+        "id": 1,
+        "name": "James Gosling",
+        "address":"Brgy. Down the road, Tagum City",
+        "contact_no": "+639123456798"
+    },
+    {
+        "id": 2,
+        "name": "Karl Marx",
+        "address":"Brgy. Down the road, Tagum City",
+        "contact_no": "+639123456798"
+    },
+    {
+        "id": 3,
+        "name": "Mark Zuckerburg",
+        "address":"Brgy. Silicon Valley, Tagum City",
+        "contact_no": "+639123456798"
+    }
+]
